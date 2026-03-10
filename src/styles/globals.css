@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@theme {
+    --breakpoint-desktop: 1440px;
+    --breakpoint-tablet: 768px;
+    --breakpoint-mobile: 375px;
+}
 @layer base {
   :root {
     --background: 0 0% 98%;

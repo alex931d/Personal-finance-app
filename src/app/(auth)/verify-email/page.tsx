@@ -22,7 +22,7 @@ export default async function VerifyEmailPage() {
   if (user.emailVerified) redirect(Paths.Dashboard);
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full tablet:max-w-md bg-white rounded-2xl mobile:max-w-none ">
       <CardHeader>
         <CardTitle>Verify Email</CardTitle>
         <CardDescription>

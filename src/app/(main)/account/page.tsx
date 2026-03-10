@@ -11,6 +11,7 @@ import { logout } from "@/lib/auth/actions";
 import { validateRequest } from "@/lib/auth/validate-request";
 import { Paths } from "@/lib/constants";
 import { redirect } from "next/navigation";
+import { toast } from "sonner";
 
 export default async function AccountPage() {
   const { user } = await validateRequest();
@@ -25,7 +26,13 @@ export default async function AccountPage() {
         </CardHeader>
         <CardContent>This is a private page.</CardContent>
         <CardFooter>
-          <form action={logout}>
+          <form   action={async (formData: FormData) => {
+            try {
+              await logout();
+            } catch (err: unknown) {
+              toast("error logging out");
+            }
+          }}>
             <SubmitButton variant="outline">Logout</SubmitButton>
           </form>
         </CardFooter>
