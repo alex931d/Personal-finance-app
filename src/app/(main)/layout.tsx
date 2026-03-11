@@ -1,13 +1,15 @@
 import { type ReactNode } from "react";
-import { Header } from "./_components/header";
-import { Footer } from "./_components/footer";
+import SideBar from "./_components/sidebar";
+import MobileSidebar from "./_components/mobilesidebar";
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <Header />
+      <div className="w-full min-h-screen bg-primary-beige100 tablet:flex">
+      <SideBar />
+        <MobileSidebar />
       {children}
-      <Footer />
+    </div>
     </>
   );
 };
