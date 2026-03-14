@@ -1,4 +1,3 @@
-import { DashboardNav } from "./_components/dashboard-nav";
 import { VerificiationWarning } from "./_components/verificiation-warning";
 
 interface Props {

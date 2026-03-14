@@ -44,14 +44,14 @@ export default function MobileSidebar() {
   return (
     <motion.div
       ref={ref}
-      className="w-full sticky top-[100%] pt-2 bg-primary-gray900 h-16 tablet:hidden"
+      className="box w-full sticky top-[100%] pt-2 bg-primary-gray900 h-16 tablet:hidden"
       transition={{
         type: "spring",
         duration: 0.8,
         delay: 0.5,
         ease: [0, 0.71, 0.2, 1.01],
       }}
-      initial={{ width: "100%" }}
+
     >
       <AnimatePresence mode="wait">
         <nav className="w-full h-full px-8 max-[400px]:px-2">
