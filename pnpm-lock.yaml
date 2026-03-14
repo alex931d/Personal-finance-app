@@ -41,6 +41,9 @@ importers:
       '@react-email/render':
         specifier: ^0.0.10
         version: 0.0.10
+      '@react-hook/resize-observer':
+        specifier: ^2.0.2
+        version: 2.0.2(react@18.2.0)
       '@t3-oss/env-nextjs':
         specifier: ^0.7.3
         version: 0.7.3(typescript@5.5.4)(zod@3.23.8)
@@ -1432,6 +1435,21 @@ packages:
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: 18.2.0
+
+  '@react-hook/latest@1.0.3':
+    resolution: {integrity: sha512-dy6duzl+JnAZcDbNTfmaP3xHiKtbXYOaz3G51MGVljh548Y8MWzTr+PHLOfvpypEVW9zwvl+VyKjbWKEVbV1Rg==}
+    peerDependencies:
+      react: '>=16.8'
+
+  '@react-hook/passive-layout-effect@1.2.1':
+    resolution: {integrity: sha512-IwEphTD75liO8g+6taS+4oqz+nnroocNfWVHWz7j+N+ZO2vYrc6PV1q7GQhuahL0IOR7JccFTsFKQ/mb6iZWAg==}
+    peerDependencies:
+      react: '>=16.8'
+
+  '@react-hook/resize-observer@2.0.2':
+    resolution: {integrity: sha512-tzKKzxNpfE5TWmxuv+5Ae3IF58n0FQgQaWJmcbYkjXTRZATXxClnTprQ2uuYygYTpu1pqbBskpwMpj6jpT1djA==}
+    peerDependencies:
+      react: '>=18'
 
   '@selderee/plugin-htmlparser2@0.11.0':
     resolution: {integrity: sha512-P33hHGdldxGabLFjPPpaTxVolMrzrcegejx+0GxjrIb9Zv48D8yAIA/QTDR2dFl7Uz7urX8aX6+5bCZslr+gWQ==}
@@ -4491,6 +4509,20 @@ snapshots:
 
   '@react-email/text@0.0.6(react@18.2.0)':
     dependencies:
+      react: 18.2.0
+
+  '@react-hook/latest@1.0.3(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
+
+  '@react-hook/passive-layout-effect@1.2.1(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
+
+  '@react-hook/resize-observer@2.0.2(react@18.2.0)':
+    dependencies:
+      '@react-hook/latest': 1.0.3(react@18.2.0)
+      '@react-hook/passive-layout-effect': 1.2.1(react@18.2.0)
       react: 18.2.0
 
   '@selderee/plugin-htmlparser2@0.11.0':

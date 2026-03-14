@@ -31,15 +31,33 @@ export default function BudgetSummaryCard({
           </Link>
         </div>
       </CardHeader>
-      <CardContent className="flex gap-3 items-stretch">
-        <div>
-          <BudgetPieChart
-            className={cn({
-              "flex-1": true,
-              "lg:h-48 xl:h-72": show,
-            })}
-            budgetSpendingData={BudgetData}
-          />
+      <CardContent className="flex flex-row gap-3 items-center justify-center max-[1125px]:flex-col">
+        <BudgetPieChart
+          className={cn({
+            "flex-1": true,
+            "lg:h-48 xl:h-72": show,
+          })}
+          budgetSpendingData={BudgetData}
+        />
+
+
+        <div className="w-fit max-[1125px]:max-w-full max-[1125px]:overflow-x-auto">
+          <div className="flex flex-col max-[1125px]:flex-row flex-nowrap gap-3">
+            {BudgetData.map((Budget) => (
+              <div key={Budget.category} className="flex gap-4 items-center flex-shrink-0">
+                <div
+                  className="rounded-2xl w-1 self-stretch"
+                  style={{ backgroundColor: Budget.theme }}
+                />
+                <div className="flex flex-col justify-between p-1">
+                  <span className="text-gray-500 text-nowrap">{Budget.category}</span>
+                  <span className="font-bold text-primary-gray900">
+              ${Budget.spent}
+            </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </CardContent>
     </Card>

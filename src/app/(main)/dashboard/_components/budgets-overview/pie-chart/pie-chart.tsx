@@ -3,7 +3,8 @@
 import { Label, Pie, PieChart } from "recharts";
 import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
-
+import { useRef, useState, useEffect } from 'react';
+import useResizeObserver from '@react-hook/resize-observer';
 export interface BudgetSpending {
   category: string;
   maximum: number;
@@ -15,6 +16,8 @@ interface BudgetPieChartProps {
   budgetSpendingData: BudgetSpending[];
   className?: string;
 }
+
+
 
 export default function BudgetPieChart({
                                          budgetSpendingData,
@@ -28,14 +31,24 @@ export default function BudgetPieChart({
     },
     {}
   ) satisfies ChartConfig;
+  const containerRef = useRef(null);
+  const [dimensions, setDimensions] = useState({ width: 100, height: 100 });
 
-
+  useResizeObserver(containerRef, (entry) => {
+    const { width, height } = entry.contentRect;
+    setDimensions({ width, height });
+  });
+  const radius = Math.min(dimensions.width, dimensions.height) * 0.4;
+  const innerRadius = radius * 0.6;
   const chartData = budgetSpendingData.map(({ category, spent, theme }) => ({
     category,
     spent,
     fill: theme,
   }));
-
+  const innerPieData = chartData.map((item) => ({
+    ...item,
+    fill: "rgba(238, 238, 238, 0.5)",
+  }));
   // Calculate total spent vs. total budget
   const [totalSpent, totalBudget] = budgetSpendingData.reduce(
     ([spentSum, maxSum], { spent, maximum }) => [
@@ -46,13 +59,22 @@ export default function BudgetPieChart({
   );
 
   return (
-    <ChartContainer config={chartConfig} className={cn("aspect-square h-64 md:h-80", className)}>
+
+    <ChartContainer ref={containerRef} config={chartConfig} className={cn("aspect-square h-64 max-[1125px]:h-54", className)}>
       <PieChart>
+        <Pie
+          data={chartData}
+          dataKey="spent"
+          nameKey="category"
+          innerRadius={innerRadius}
+          outerRadius={radius}
+        />
         <Pie
           dataKey="spent"
           nameKey="category"
-          data={chartData}
-          innerRadius="50%"
+          data={innerPieData}
+          outerRadius={radius * 0.7} // 70% of main outer
+          innerRadius={innerRadius}
         >
           <Label
             content={({ viewBox }) => {
@@ -86,7 +108,10 @@ export default function BudgetPieChart({
             }}
           />
         </Pie>
+
+
       </PieChart>
+
     </ChartContainer>
   );
 }

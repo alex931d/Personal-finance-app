@@ -41,25 +41,25 @@ export default async function DashboardPage({ searchParams }: Props) {
 
   const Budgets: BudgetSpending[] = [
     {
-      category: "pot1",
+      category: "Expensives",
       maximum: 120,
       spent: 45,
       theme: "#277C78",
     },
     {
-      category: "pot2",
+      category: "Expensives",
       maximum: 300,
       spent: 178,
       theme: "#82C9D7",
     },
     {
-      category: "pot3",
+      category: "Expensives",
       maximum: 80,
       spent: 63,
       theme: "#826CB0",
     },
     {
-      category: "pot4",
+      category: "Expensives",
       maximum: 500,
       spent: 210,
       theme: "#CAB361",
@@ -110,7 +110,7 @@ const pots = [
 ]
   return (
     <div>
-      <div className="mb-6 grid gap-6">
+      <div className="mb-6 grid gap-6 auto-rows-auto ">
         <div className="grid grid-cols-3 gap-5">
 
 
@@ -151,8 +151,8 @@ const pots = [
             </CardContent>
           </Card>
         </div>
-        <section className="grid grid-cols-5 gap-6">
-          <section className="grid col-span-3">
+        <section className="grid grid-cols-5 gap-6 auto-rows-auto">
+          <section className=" col-span-3 auto-rows-auto">
           <Card>
             <CardHeader className="flex flex-row justify-between items-top">
               <span className="font-bold text-slate-950 w-fit ">
@@ -167,7 +167,7 @@ const pots = [
                </Link>
              </div>
             </CardHeader>
-            <CardContent className="flex gap-3 items-stretch">
+            <CardContent className="flex gap-3 self-start">
               <Card className="bg-primary-beige100 w-1/2 self-stretch">
                 <CardContent className="pt-2 flex gap-4 h-full items-center">
                   <Jar fill="none" width={40} height={40} />
@@ -197,7 +197,7 @@ const pots = [
             </CardContent>
           </Card>
           </section>
-          <section className="flex gap-4 w-full">
+          <section className="col-span-2">
        
             <BudgetSummaryCard BudgetData={Budgets}/>
           </section>
