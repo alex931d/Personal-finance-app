@@ -10,9 +10,16 @@ import { PostsSkeleton } from "./_components/posts-skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
 import { ArrowRight, House, Jar } from "../../(main)/_components/ui/icons";
-import BudgetPieChart, { BudgetSpending} from "@/app/(main)/dashboard/_components/budgets-overview/pie-chart/pie-chart";
-import { cn } from "@/lib/utils";
+import BudgetPieChart, { type BudgetSpending} from "@/app/(main)/dashboard/_components/budgets-overview/pie-chart/pie-chart";
+
 import BudgetSummaryCard from "@/app/(main)/dashboard/_components/budgets-overview/Budget-summery-card";
+import TransactionSummaryCard, { type TransactionType } from "@/app/(main)/dashboard/_components/transaction-overview/transaction-summery-card";
+import PotSummaryCard, {
+  type PotType,
+} from "@/app/(main)/dashboard/_components/pots-overview/pot-summery-card";
+import BillTypeSummaryCard, {
+  type BillType,
+} from "@/app/(main)/dashboard/_components/bills-overview/bill-summery-card";
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
   title: "Dashboard",
@@ -38,6 +45,31 @@ export default async function DashboardPage({ searchParams }: Props) {
   const promises = Promise.all([
     api.post.myPosts.query({ page, perPage }),
   ]);
+
+  const billTypeData: BillType[] = [
+    {
+      amount: 1250.75,
+      date: new Date('2025-01-15'),
+      enum: [
+        { name: 'Total', color: '#3b82f6' } // blue
+      ]
+    },
+    {
+      amount: 890.50,
+      date: new Date('2025-02-10'),
+      enum: [
+        { name: 'Due', color: '#ef4444' }   // red
+      ]
+    },
+    {
+      amount: 2300.00,
+      date: new Date('2025-03-05'),
+      enum: [
+        { name: 'Paid', color: '#10b981' }  // green
+      ]
+    }
+  ];
+
 
   const Budgets: BudgetSpending[] = [
     {
@@ -65,8 +97,41 @@ export default async function DashboardPage({ searchParams }: Props) {
       theme: "#CAB361",
     },
   ];
+  const Transactions: TransactionType[] = [
+    {
+      img: "/assets/images/avatars/daniel-carter.jpg",
+      name: "Coffee Shop",
+      amount: -12.50,
+      date: new Date(2024, 2, 15), // March 15, 2024
+    },
+    {
+      img: "/assets/images/avatars/daniel-carter.jpg",
+      name: "Salary Deposit",
+      amount: 3500.00,
+      date: new Date(2024, 2, 1),
+    },
+    {
+      img: "/assets/images/avatars/daniel-carter.jpg",
+      name: "Online Subscription",
+      amount: -9.99,
+      date: new Date(2024, 2, 10),
+    },
+    {
+      img: "/assets/images/avatars/daniel-carter.jpg",
+      name: "Grocery Store",
+      amount: -85.30,
+      date: new Date(2024, 2, 12),
+    },
+    {
+      img: "/assets/images/avatars/daniel-carter.jpg",
+      name: "Freelance Payment",
+      amount: 450.00,
+      date: new Date(2024, 1, 28), // February 28, 2024
+    },
 
-const pots = [
+  ];
+
+const pots: PotType[] = [
   {
     id: 0,
     name: 'pot1',
@@ -109,8 +174,9 @@ const pots = [
   },
 ]
   return (
-    <div>
-      <div className="mb-6 grid gap-6 auto-rows-auto ">
+    <div className="h-full">
+      <div className="mb-6 grid gap-6 grid-rows-[auto_1fr] h-full">
+        <h1 className="text-2xl font-bold text-primary-gray900">Overview</h1>
         <div className="grid grid-cols-3 gap-5">
 
 
@@ -151,55 +217,18 @@ const pots = [
             </CardContent>
           </Card>
         </div>
-        <section className="grid grid-cols-5 gap-6 auto-rows-auto">
-          <section className=" col-span-3 auto-rows-auto">
-          <Card>
-            <CardHeader className="flex flex-row justify-between items-top">
-              <span className="font-bold text-slate-950 w-fit ">
-                 Pots
-              </span>
-             <div className="flex gap-3.5 items-center w-fit ">
-               <Link href="/pots" className="flex gap-3.5 items-center justify-center">
-                <span className="text-gray-500 w-fit ">
-                  See Details
-                </span>
-                 <ArrowRight />
-               </Link>
-             </div>
-            </CardHeader>
-            <CardContent className="flex gap-3 self-start">
-              <Card className="bg-primary-beige100 w-1/2 self-stretch">
-                <CardContent className="pt-2 flex gap-4 h-full items-center">
-                  <Jar fill="none" width={40} height={40} />
-                  <div className="flex flex-col justify-between">
-                    <span className="text-gray-500 w-fit">Total Saved</span>
-                    <span className="text-3xl font-bold text-slate-950">$</span>
-                  </div>
-                </CardContent>
-              </Card>
+        <section className="grid grid-cols-5 h-full gap-6  flex-grow">
+          <section className=" col-span-3 flex flex-col gap-6 flex-grow">
+            <PotSummaryCard PotData={pots} />
 
-              <div className="grid grid-cols-2 gap-3 flex-1">
-                {pots.map((pot) => (
-                  <div key={pot.name} className="flex gap-4 items-center">
-                    <div
-                      className="rounded-2xl w-1 self-stretch"
-                      style={{ backgroundColor: pot.theme }}
-                    />
-                    <div className="flex flex-col justify-between p-1">
-                      <span className="text-gray-500 w-fit">{pot.name}</span>
-                      <span className="font-bold text-primary-gray900 w-fit">
-                     ${pot.amount}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+              <TransactionSummaryCard TransactionData={Transactions} />
+
+
           </section>
-          <section className="col-span-2">
+          <section className="col-span-2 gap-6  flex flex-col ">
        
             <BudgetSummaryCard BudgetData={Budgets}/>
+            <BillTypeSummaryCard BillData={billTypeData}/>
           </section>
         </section>
       </div>

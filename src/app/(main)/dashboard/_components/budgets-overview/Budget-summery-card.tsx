@@ -17,7 +17,7 @@ export default function BudgetSummaryCard({
                                           }: BudgetSummaryProps) {
 
   return (
-    <Card className="w-full">
+    <Card className="w-full h-1/2">
       <CardHeader className="flex flex-row justify-between items-top">
               <span className="font-bold text-slate-950 w-fit ">
                  Budgets

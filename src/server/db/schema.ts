@@ -90,7 +90,7 @@ export const pots = pgTable(
     name: varchar("name", { length: 255 }).notNull(),
     theme: varchar("theme", { enum: ["green", "yellow"] }).notNull(),
     amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
-    total: numeric("amount", { precision: 10, scale: 2 }).notNull(),
+    total: numeric("total", { precision: 10, scale: 2 }).notNull(),
     userId: varchar("user_id", { length: 255 }).notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { mode: "date" }).$onUpdate(() => new Date()),

@@ -3,6 +3,7 @@ import * as schema from "./schema";
 import { drizzle, type PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
+
 declare global {
   // eslint-disable-next-line no-var
   var db: PostgresJsDatabase<typeof schema> | undefined;
@@ -27,6 +28,7 @@ if (env.NODE_ENV === "production") {
 
   pg = global.pg;
   db = global.db;
+
 }
 
 export { db, pg };
