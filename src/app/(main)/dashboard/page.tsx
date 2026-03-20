@@ -1,7 +1,7 @@
 import { env } from "@/env";
 import { validateRequest } from "@/lib/auth/validate-request";
 import { Paths } from "@/lib/constants";
-import { myPostsSchema } from "@/server/api/routers/pot/pot.input";
+import { myPotsSchema } from "@/server/api/routers/pot/pot.input";
 import { api } from "@/trpc/server";
 import { type Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -15,7 +15,6 @@ import BudgetPieChart, { type BudgetSpending} from "@/app/(main)/dashboard/_comp
 import BudgetSummaryCard from "@/app/(main)/dashboard/_components/budgets-overview/Budget-summery-card";
 import TransactionSummaryCard, { type TransactionType } from "@/app/(main)/dashboard/_components/transaction-overview/transaction-summery-card";
 import PotSummaryCard, {
-  type PotType,
 } from "@/app/(main)/dashboard/_components/pots-overview/pot-summery-card";
 import BillTypeSummaryCard, {
   type BillType,
@@ -29,12 +28,11 @@ export const metadata: Metadata = {
 interface Props {
   searchParams: Record<string, string | string[] | undefined>;
 }
-
 export default async function DashboardPage({ searchParams }: Props) {
-  const { page, perPage } = myPostsSchema.parse(searchParams);
-
   const { user } = await validateRequest();
   if (!user) redirect(Paths.Login);
+
+
 
   /**
    * Passing multiple promises to `Promise.all` to fetch data in parallel to prevent waterfall requests.
@@ -43,7 +41,7 @@ export default async function DashboardPage({ searchParams }: Props) {
    * @see https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#parallel-data-fetching
    */
   const promises = Promise.all([
-    api.post.myPosts.query({ page, perPage }),
+    api.pot.myPots.query({ limit: 5 }),
   ]);
 
   const billTypeData: BillType[] = [
@@ -131,48 +129,7 @@ export default async function DashboardPage({ searchParams }: Props) {
 
   ];
 
-const pots: PotType[] = [
-  {
-    id: 0,
-    name: 'pot1',
-    theme: "#277C78",
-    amount: 2,
-    total: 3,
-    userId: 2,
-    createdAt: "2",
-    updatedAt: "2",
-  },
-  {
-    id: 1,
-    name: 'pot2',
-    theme: "#82C9D7",
-    amount: 2,
-    total: 3,
-    userId: 2,
-    createdAt: "2",
-    updatedAt: "2",
-  },
-  {
-    id: 3,
-    name: 'pot3',
-    theme: "#826CB0",
-    amount: 2,
-    total: 3,
-    userId: 2,
-    createdAt: "2",
-    updatedAt: "2",
-  },
-  {
-    id: 4,
-    name: 'pot4',
-    theme: "#CAB361",
-    amount: 2,
-    total: 3,
-    userId: 2,
-    createdAt: "2",
-    updatedAt: "2",
-  },
-]
+
   return (
     <div className="h-full">
       <div className="mb-6 grid gap-6 grid-rows-[auto_1fr] h-full">
@@ -219,7 +176,7 @@ const pots: PotType[] = [
         </div>
         <section className="grid grid-cols-5 h-full gap-6  flex-grow">
           <section className=" col-span-3 flex flex-col gap-6 flex-grow">
-            <PotSummaryCard PotData={pots} />
+            <PotSummaryCard promises={promises} />
 
               <TransactionSummaryCard TransactionData={Transactions} />
 

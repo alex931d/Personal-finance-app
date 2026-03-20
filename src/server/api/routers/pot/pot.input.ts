@@ -2,7 +2,7 @@ import { z } from "zod";
 
 
 export const listPotsSchema = z.object({
-  userId: z.string().min(1),
+
   page: z.number().int().positive().default(1),
   perPage: z.number().int().positive().default(10),
 });
@@ -32,7 +32,8 @@ export const deletePotSchema = z.object({
 export type DeletePotInput = z.infer<typeof deletePotSchema>;
 
 export const myPotsSchema = z.object({
-  page: z.number().int().default(1),
-  perPage: z.number().int().default(12),
+  limit: z.number().int().positive().optional(),
+  page: z.number().int().positive().default(1),
+  perPage: z.number().int().positive().default(10),
 });
 export type MyPotsInput = z.infer<typeof myPotsSchema>;

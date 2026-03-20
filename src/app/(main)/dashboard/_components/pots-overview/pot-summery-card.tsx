@@ -1,30 +1,20 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
 import { ArrowRight, Jar } from "@/app/(main)/_components/ui/icons";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 import * as React from "react";
-
-export interface PotType {
-  id: number;
-  name: string;
-  theme: string;
-  amount: number;
-  total: number;
-  userId: number;
-  createdAt: string;
-  updatedAt: string;
+import { type RouterOutputs } from "@/trpc/shared";
+interface PotsProps {
+  promises: Promise<[RouterOutputs["pot"]["myPots"]]>;
 }
 
-interface PotSummaryProps {
-  PotData: PotType[];
-}
-
-
-export default function PotSummaryCard({
-                                                 PotData,
-                                               }: PotSummaryProps) {
-
+export default function PotSummaryCard({ promises }: PotsProps) {
+  const result = React.use(promises);
+  const pots = Array.isArray(result) ? result[0] : result;
+  const totalSaved = pots.reduce((sum, pot) => sum + parseFloat(pot.amount), 0);
+  const formattedTotal = totalSaved.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
   return (
     <>
       <Card>
@@ -47,13 +37,13 @@ export default function PotSummaryCard({
               <Jar fill="none" width={40} height={40} />
               <div className="flex flex-col justify-between">
                 <span className="text-gray-500 w-fit">Total Saved</span>
-                <span className="text-3xl font-bold text-slate-950">$</span>
+                <span className="text-3xl font-bold text-slate-950">${formattedTotal}</span>
               </div>
             </CardContent>
           </Card>
 
           <div className="grid grid-cols-2 gap-3 flex-1">
-            {PotData.map((pot) => (
+            {pots.map((pot) => (
               <div key={pot.name} className="flex gap-4 items-center">
                 <div
                   className="rounded-2xl w-1 self-stretch"

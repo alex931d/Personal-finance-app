@@ -13,7 +13,7 @@ import { eq } from "drizzle-orm";
 
 export const listPots = async (ctx: ProtectedTRPCContext, input: ListPotsInput) => {
   return ctx.db.query.pots.findMany({
-    where: (table, { eq }) => eq(table.userId, input.userId), // filter by user
+    where: (table, { eq }) => eq(table.userId, ctx.user.id), // filter by user
     offset: (input.page - 1) * input.perPage,
     limit: input.perPage,
     orderBy: (table, { desc }) => desc(table.createdAt),
@@ -83,10 +83,8 @@ export const deletePot = async (ctx: ProtectedTRPCContext, { id }: DeletePotInpu
   return item;
 };
 export const myPots = async (ctx: ProtectedTRPCContext, input: MyPotsInput) => {
-  return ctx.db.query.pots.findMany({
+  const config: Parameters<typeof ctx.db.query.pots.findMany>[0] = {
     where: (table, { eq }) => eq(table.userId, ctx.user.id),
-    offset: (input.page - 1) * input.perPage,
-    limit: input.perPage,
     orderBy: (table, { desc }) => desc(table.createdAt),
     columns: {
       id: true,
@@ -97,5 +95,15 @@ export const myPots = async (ctx: ProtectedTRPCContext, input: MyPotsInput) => {
       createdAt: true,
       updatedAt: true,
     },
-  });
+  };
+  // If a limit is provided
+  if (input.limit) {
+    config.limit = input.limit;
+  }
+  // if pagination is provided
+  if (input.page && input.perPage) {
+    config.limit = input.perPage;
+    config.offset = (input.page - 1) * input.perPage;
+  }
+  return ctx.db.query.pots.findMany(config);
 };
