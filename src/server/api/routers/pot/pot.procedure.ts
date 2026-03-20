@@ -1,6 +1,6 @@
 import { createTRPCRouter, protectedProcedure } from "../../trpc";
-import * as inputs from "./post.input";
-import * as services from "./post.service";
+import * as inputs from "./pot.input";
+import * as services from "./pot.service";
 
 export const postRouter = createTRPCRouter({
   list: protectedProcedure

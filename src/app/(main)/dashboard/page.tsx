@@ -1,7 +1,7 @@
 import { env } from "@/env";
 import { validateRequest } from "@/lib/auth/validate-request";
 import { Paths } from "@/lib/constants";
-import { myPostsSchema } from "@/server/api/routers/post/post.input";
+import { myPostsSchema } from "@/server/api/routers/pot/pot.input";
 import { api } from "@/trpc/server";
 import { type Metadata } from "next";
 import { redirect } from "next/navigation";

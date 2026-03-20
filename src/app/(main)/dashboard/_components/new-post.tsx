@@ -33,7 +33,7 @@ export const NewPost = ({ isEligible, setOptimisticPosts }: NewPostProps) => {
         {
           title: "Untitled Post",
           content: "Write your content here",
-          excerpt: "untitled post",
+          excerpt: "untitled pot",
         },
         {
           onSettled: () => {
@@ -42,7 +42,7 @@ export const NewPost = ({ isEligible, setOptimisticPosts }: NewPostProps) => {
               post: {
                 id: crypto.randomUUID(),
                 title: "Untitled Post",
-                excerpt: "untitled post",
+                excerpt: "untitled pot",
                 status: "draft",
                 createdAt: new Date(),
               },
@@ -57,7 +57,7 @@ export const NewPost = ({ isEligible, setOptimisticPosts }: NewPostProps) => {
             }, 100);
           },
           onError: () => {
-            toast.error("Failed to create post");
+            toast.error("Failed to create pot");
           },
         },
       );

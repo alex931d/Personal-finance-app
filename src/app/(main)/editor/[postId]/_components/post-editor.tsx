@@ -20,7 +20,7 @@ import { api } from "@/trpc/react";
 import { Pencil2Icon } from "@/components/icons";
 import { LoadingButton } from "@/components/loading-button";
 import Link from "next/link";
-import { createPostSchema } from "@/server/api/routers/post/post.input";
+import { createPostSchema } from "@/server/api/routers/pot/pot.input";
 
 const markdownlink = "https://remarkjs.github.io/react-markdown/";
 

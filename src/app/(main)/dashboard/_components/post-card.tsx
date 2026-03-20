@@ -72,7 +72,7 @@ export const PostCard = ({ post, userName, setOptimisticPosts }: PostCardProps) 
                     router.refresh();
                   },
                   onError: () => {
-                    toast.error("Failed to delete post");
+                    toast.error("Failed to delete pot");
                   },
                 },
               );
