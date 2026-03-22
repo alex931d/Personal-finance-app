@@ -44,7 +44,7 @@ export default function MobileSidebar() {
   return (
     <motion.div
       ref={ref}
-      className="box w-full sticky top-[100%] pt-2 bg-primary-gray900 h-16 tablet:hidden"
+      className="box w-full z-10 fixed bottom-[0] pt-2 bg-primary-gray900 h-16 tablet:hidden"
       transition={{
         type: "spring",
         duration: 0.8,

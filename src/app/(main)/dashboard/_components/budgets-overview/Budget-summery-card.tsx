@@ -20,7 +20,7 @@ export default function BudgetSummaryCard({
   const budgets = Array.isArray(result) ? result[0] : result;
  
   return (
-    <Card className="w-full h-1/2">
+    <Card className="w-full h-1/2 tablet:h-full">
       <CardHeader className="flex flex-row justify-between items-top">
               <span className="font-bold text-slate-950 w-fit ">
                  Budgets
@@ -34,7 +34,7 @@ export default function BudgetSummaryCard({
           </Link>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-row gap-3 items-center justify-center max-[1125px]:flex-col">
+      <CardContent className="flex flex-row gap-3 items-center justify-center max-[1125px]:flex-col max-tablet:flex-row">
         <BudgetPieChart
           className={cn({
             "flex-1": true,
@@ -45,7 +45,7 @@ export default function BudgetSummaryCard({
 
 
         <div className="w-fit max-[1125px]:max-w-full max-[1125px]:overflow-x-auto">
-          <div className="flex flex-col max-[1125px]:flex-row flex-nowrap gap-3">
+          <div className="flex flex-col max-[1125px]:flex-row flex-nowrap gap-3 max-tablet:flex-col">
             {budgets.map((Budget,index) => (
               <div key={index} className="flex gap-4 items-center flex-shrink-0">
                 <div

@@ -17,7 +17,7 @@ export default function PotSummaryCard({ promises }: PotsProps) {
   });
   return (
     <>
-      <Card>
+      <Card className={"h-[218px]"}>
         <CardHeader className="flex flex-row justify-between items-top">
               <span className="font-bold text-slate-950 w-fit ">
                  Pots

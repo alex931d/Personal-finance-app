@@ -19,7 +19,6 @@ export default function BudgetPieChart({
                                          budgetSpendingData,
                                          className,
                                        }: BudgetPieChartProps) {
-
   const chartConfig = budgetSpendingData.reduce<ChartConfig>(
     (acc, { category, theme }) => {
       acc[category] = { label: category, color: theme };
@@ -38,7 +37,7 @@ export default function BudgetPieChart({
   const innerRadius = radius * 0.6;
   const chartData = budgetSpendingData.map(({ category, spent, theme }) => ({
     category,
-    spent,
+    spent: Number(spent),
     fill: theme,
   }));
   const innerPieData = chartData.map((item) => ({

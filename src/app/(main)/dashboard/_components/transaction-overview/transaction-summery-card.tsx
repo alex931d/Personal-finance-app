@@ -24,7 +24,7 @@ export default function TransactionSummaryCard({
 
   return (
     <>
-    <Card className="flex flex-col flex-grow h-full">
+    <Card className="flex flex-col flex-grow h-[519px]">
       <CardHeader className="flex flex-row justify-between items-top">
               <span className="font-bold text-slate-950 w-fit ">
                  Transactions

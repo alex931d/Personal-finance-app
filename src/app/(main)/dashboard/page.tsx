@@ -109,9 +109,9 @@ export default async function DashboardPage({ searchParams }: Props) {
 
   return (
     <div className="h-full">
-      <div className="mb-6 grid gap-6 grid-rows-[auto_1fr] h-full">
+      <div className="mb-6 grid gap-6">
         <h1 className="text-2xl font-bold text-primary-gray900">Overview</h1>
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-3 gap-5 max-h-36">
 
 
         <Card className="rounded-2xl bg-primary-gray900 w-full">
@@ -122,7 +122,7 @@ export default async function DashboardPage({ searchParams }: Props) {
           </CardHeader>
           <CardContent>
             <span className="text-3xl font-bold text-white">
-              $4.836.00
+             ${user.balance}
             </span>
           </CardContent>
         </Card>
@@ -151,24 +151,21 @@ export default async function DashboardPage({ searchParams }: Props) {
             </CardContent>
           </Card>
         </div>
-        <section className="grid grid-cols-5 h-full gap-6  flex-grow">
-          <section className=" col-span-3 flex flex-col gap-6 flex-grow">
+        <section className="grid grid-cols-1 tablet:grid-cols-5 h-full gap-6 flex-grow">
+          <section className="col-span-1 tablet:col-span-3  flex flex-col gap-6 flex-grow">
             <PotSummaryCard promises={Potpromise} />
 
               <TransactionSummaryCard TransactionData={Transactions} />
 
 
           </section>
-          <section className="col-span-2 gap-6  flex flex-col ">
+          <section className="col-span-1 tablet:col-span-2 gap-6  flex flex-col ">
        
             <BudgetSummaryCard promises={Budgetpromise}/>
             <BillTypeSummaryCard BillData={billTypeData}/>
           </section>
         </section>
       </div>
-      <React.Suspense fallback={<PostsSkeleton />}>
-
-      </React.Suspense>
     </div>
   );
 }
