@@ -22,6 +22,7 @@ export const users = pgTable(
     emailVerified: boolean("email_verified").default(false).notNull(),
     hashedPassword: varchar("hashed_password", { length: 255 }),
     avatar: varchar("avatar", { length: 255 }),
+    balance: numeric("balance", { precision: 10, scale: 2 }).notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { mode: "date" }).$onUpdate(() => new Date()),
   },
@@ -72,22 +73,7 @@ export const passwordResetTokens = pgTable(
   }),
 );
 
-export const accounts = pgTable(
-  "accounts",
-  {
-    id: varchar("id", { length: 21 }).primaryKey(),
-    type: varchar("type", { enum: ["user", "pot"] }).notNull(),
-    userId: varchar("user_id", { length: 21 }),
-    potId: varchar("pot_id", { length: 21 }),
-    balance: numeric("balance", { precision: 10, scale: 2 }).default("0").notNull(),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at", { mode: "date" }).$onUpdate(() => new Date()),
-  },
-  (t) => ({
-    userIdx: index("accounts_user_idx").on(t.userId),
-    potIdx: index("accounts_pot_idx").on(t.potId),
-  })
-);
+
 export const budgets = pgTable("budgets", {
   id: varchar("id", { length: 21 }).primaryKey(),
   userId: varchar("user_id", { length: 21 }).notNull(),
@@ -136,16 +122,16 @@ export const transactions = pgTable(
   "transactions",
   {
     id: varchar("id", { length: 21 }).primaryKey(),
-    fromAccountId: varchar("from_account_id", { length: 21 }).notNull(),
-    toAccountId: varchar("to_account_id", { length: 21 }).notNull(),
+    fromUserId: varchar("from_user_id", { length: 21 }).notNull(),
+    toUserId: varchar("to_user_id", { length: 21 }).notNull(),
     amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
     description: varchar("description", { length: 255 }),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     isRecurring: boolean("is_recurring").default(false).notNull(),
   },
   (t) => ({
-    fromIdx: index("transactions_from_account_idx").on(t.fromAccountId),
-    toIdx: index("transactions_to_account_idx").on(t.toAccountId),
+    fromUserIdx: index("transactions_from_user_idx").on(t.fromUserId),
+    toUserIdx: index("transactions_to_user_idx").on(t.toUserId),
     createdIdx: index("transactions_created_idx").on(t.createdAt),
   })
 );
@@ -170,13 +156,13 @@ export const budgetsRelations = relations(budgets, ({ one }) => ({
   }),
 }));
 export const transactionsRelations = relations(transactions, ({ one }) => ({
-  fromAccount: one(accounts, {
-    fields: [transactions.fromAccountId],
-    references: [accounts.id],
+  fromUser: one(users, {
+    fields: [transactions.fromUserId],
+    references: [users.id],
   }),
-  toAccount: one(accounts, {
-    fields: [transactions.toAccountId],
-    references: [accounts.id],
+  toUser: one(users, {
+    fields: [transactions.toUserId],
+    references: [users.id],
   }),
 }));
 

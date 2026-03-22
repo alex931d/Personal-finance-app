@@ -32,6 +32,7 @@ async function main() {
             "https://example.com/avatar2.png",
           ],
         }),
+        balance: f.number({ minValue: 100, maxValue: 2000, precision: 100 }),
         createdAt: f.date({ minDate: "2024-01-01", maxDate: new Date() }),
         updatedAt: f.date({ minDate: "2024-01-01", maxDate: new Date() }),
       },
