@@ -8,9 +8,7 @@ import { redirect } from "next/navigation";
 import * as React from "react";
 import { PostsSkeleton } from "./_components/posts-skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import Link from "next/link";
-import { ArrowRight, House, Jar } from "../../(main)/_components/ui/icons";
-import BudgetPieChart, { type BudgetSpending} from "@/app/(main)/dashboard/_components/budgets-overview/pie-chart/pie-chart";
+
 
 import BudgetSummaryCard from "@/app/(main)/dashboard/_components/budgets-overview/Budget-summery-card";
 import TransactionSummaryCard, { type TransactionType } from "@/app/(main)/dashboard/_components/transaction-overview/transaction-summery-card";
@@ -40,8 +38,13 @@ export default async function DashboardPage({ searchParams }: Props) {
    * @see https://www.youtube.com/shorts/A7GGjutZxrs
    * @see https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#parallel-data-fetching
    */
-  const promises = Promise.all([
+  const Potpromise = Promise.all([
     api.pot.myPots.query({ limit: 5 }),
+
+  ]);
+  const Budgetpromise = Promise.all([
+    api.budget.myBudgets.query({ limit: 5 }),
+
   ]);
 
   const billTypeData: BillType[] = [
@@ -69,32 +72,6 @@ export default async function DashboardPage({ searchParams }: Props) {
   ];
 
 
-  const Budgets: BudgetSpending[] = [
-    {
-      category: "Expensives",
-      maximum: 120,
-      spent: 45,
-      theme: "#277C78",
-    },
-    {
-      category: "Expensives",
-      maximum: 300,
-      spent: 178,
-      theme: "#82C9D7",
-    },
-    {
-      category: "Expensives",
-      maximum: 80,
-      spent: 63,
-      theme: "#826CB0",
-    },
-    {
-      category: "Expensives",
-      maximum: 500,
-      spent: 210,
-      theme: "#CAB361",
-    },
-  ];
   const Transactions: TransactionType[] = [
     {
       img: "/assets/images/avatars/daniel-carter.jpg",
@@ -176,7 +153,7 @@ export default async function DashboardPage({ searchParams }: Props) {
         </div>
         <section className="grid grid-cols-5 h-full gap-6  flex-grow">
           <section className=" col-span-3 flex flex-col gap-6 flex-grow">
-            <PotSummaryCard promises={promises} />
+            <PotSummaryCard promises={Potpromise} />
 
               <TransactionSummaryCard TransactionData={Transactions} />
 
@@ -184,7 +161,7 @@ export default async function DashboardPage({ searchParams }: Props) {
           </section>
           <section className="col-span-2 gap-6  flex flex-col ">
        
-            <BudgetSummaryCard BudgetData={Budgets}/>
+            <BudgetSummaryCard promises={Budgetpromise}/>
             <BillTypeSummaryCard BillData={billTypeData}/>
           </section>
         </section>

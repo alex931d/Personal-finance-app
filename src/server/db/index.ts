@@ -2,7 +2,36 @@ import { env } from "@/env";
 import * as schema from "./schema";
 import { drizzle, type PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
+import { TransactionRollbackError, } from "drizzle-orm";
 
+
+
+type Transaction = Parameters<Parameters<typeof db.transaction>[0]>[0];
+export function abortableTransaction<T>(
+  callback: (tx: Transaction) => Promise<T>,
+  {
+    signal,
+    database = db,
+  }: {
+    signal: AbortSignal;
+    database: PostgresJsDatabase<typeof schema>;
+  }
+): Promise<T> {
+  return database.transaction(async (tx: Transaction) => {
+    if (signal.aborted) {
+      throw new TransactionRollbackError();
+    }
+
+    const abortPromise = new Promise<never>((_, reject) => {
+      const onAbort = () => {
+        reject(new TransactionRollbackError());
+      };
+      signal.addEventListener('abort', onAbort, { once: true });
+    });
+
+    return Promise.race([callback(tx), abortPromise]);
+  });
+}
 
 declare global {
   // eslint-disable-next-line no-var

@@ -3,17 +3,13 @@
 import { Label, Pie, PieChart } from "recharts";
 import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import useResizeObserver from '@react-hook/resize-observer';
-export interface BudgetSpending {
-  category: string;
-  maximum: number;
-  spent: number;
-  theme: string;
-}
+import type { RouterOutputs } from "@/trpc/shared";
+
 
 interface BudgetPieChartProps {
-  budgetSpendingData: BudgetSpending[];
+  budgetSpendingData: RouterOutputs["budget"]["myBudgets"];
   className?: string;
 }
 
@@ -51,9 +47,9 @@ export default function BudgetPieChart({
   }));
   // Calculate total spent vs. total budget
   const [totalSpent, totalBudget] = budgetSpendingData.reduce(
-    ([spentSum, maxSum], { spent, maximum }) => [
-      spentSum + spent,
-      maxSum + maximum,
+    ([spentSum, maxSum], { spent, limit }) => [
+      spentSum + Number(spent),
+      maxSum + Number(limit),
     ],
     [0, 0]
   );

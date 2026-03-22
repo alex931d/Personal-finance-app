@@ -1,21 +1,24 @@
-import BudgetPieChart, { BudgetSpending } from "@/app/(main)/dashboard/_components/budgets-overview/pie-chart/pie-chart";
+import BudgetPieChart from "@/app/(main)/dashboard/_components/budgets-overview/pie-chart/pie-chart";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
 import { ArrowRight } from "@/app/(main)/_components/ui/icons";
 import { cn } from "@/lib/utils";
 import * as React from "react";
-
-interface BudgetSummaryProps {
-  BudgetData: BudgetSpending[];
+import type { RouterOutputs } from "@/trpc/shared";
+interface BudgetProps {
+  promises: Promise<[RouterOutputs["budget"]["myBudgets"]]>;
   show?: boolean;
 }
 
 
-export default function BudgetSummaryCard({
-                                            BudgetData,
-                                            show,
-                                          }: BudgetSummaryProps) {
 
+export default function BudgetSummaryCard({
+                                            promises,
+                                            show,
+                                          }: BudgetProps) {
+  const result = React.use(promises);
+  const budgets = Array.isArray(result) ? result[0] : result;
+ 
   return (
     <Card className="w-full h-1/2">
       <CardHeader className="flex flex-row justify-between items-top">
@@ -37,14 +40,14 @@ export default function BudgetSummaryCard({
             "flex-1": true,
             "lg:h-48 xl:h-72": show,
           })}
-          budgetSpendingData={BudgetData}
+          budgetSpendingData={budgets}
         />
 
 
         <div className="w-fit max-[1125px]:max-w-full max-[1125px]:overflow-x-auto">
           <div className="flex flex-col max-[1125px]:flex-row flex-nowrap gap-3">
-            {BudgetData.map((Budget) => (
-              <div key={Budget.category} className="flex gap-4 items-center flex-shrink-0">
+            {budgets.map((Budget,index) => (
+              <div key={index} className="flex gap-4 items-center flex-shrink-0">
                 <div
                   className="rounded-2xl w-1 self-stretch"
                   style={{ backgroundColor: Budget.theme }}

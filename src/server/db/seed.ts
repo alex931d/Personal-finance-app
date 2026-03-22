@@ -54,9 +54,11 @@ async function main() {
           values: ["green", "yellow"],
         }),
         limit: f.number({ minValue: 100, maxValue: 2000, precision: 100 }),
+        spent: f.number({ minValue: 100, maxValue: 2000, precision: 100 }),
         period: f.valuesFromArray({
           values: ["monthly", "weekly", "yearly"],
         }),
+
         createdAt: f.date({ minDate: "2024-01-01", maxDate: new Date() }),
       },
     },
