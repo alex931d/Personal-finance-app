@@ -24,6 +24,7 @@ async function main() {
           isUnique: true,
         }),
         email: f.email(),
+        name: f.firstName(),
         emailVerified: f.boolean(),
         hashedPassword: f.default({ defaultValue: hashedPassword }),
         avatar: f.valuesFromArray({

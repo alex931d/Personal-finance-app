@@ -17,7 +17,7 @@ export default function PotSummaryCard({ promises }: PotsProps) {
   });
   return (
     <>
-      <Card className={"h-[218px]"}>
+      <Card className={"mobile:min-h-[218px]"}>
         <CardHeader className="flex flex-row justify-between items-top">
               <span className="font-bold text-slate-950 w-fit ">
                  Pots
@@ -31,26 +31,26 @@ export default function PotSummaryCard({ promises }: PotsProps) {
             </Link>
           </div>
         </CardHeader>
-        <CardContent className="flex gap-3 self-start">
-          <Card className="bg-primary-beige100 w-1/2 self-stretch">
+        <CardContent className="flex max-[640px]:flex-col gap-3 self-start mb-2">
+          <Card className="bg-primary-beige100 max-[640px]:w-full self-stretch">
             <CardContent className="pt-2 flex gap-4 h-full items-center">
-              <Jar fill="none" width={40} height={40} />
+              <Jar fill="green" width={40} height={40} className="min-w-10 aspect-square max-mobile:min-w-6 fill-foreground" />
               <div className="flex flex-col justify-between">
                 <span className="text-gray-500 w-fit">Total Saved</span>
-                <span className="text-3xl font-bold text-slate-950">${formattedTotal}</span>
+                <span className="text-3xl font-bold max-mobile:text-xl text-slate-950">${formattedTotal}</span>
               </div>
             </CardContent>
           </Card>
 
           <div className="grid grid-cols-2 gap-3 flex-1">
             {pots.map((pot) => (
-              <div key={pot.name} className="flex gap-4 items-center">
+              <div key={pot.name} className="flex gap-4  items-center">
                 <div
-                  className="rounded-2xl w-1 self-stretch"
+                  className="rounded-2xl min-w-1.5 h-full"
                   style={{ backgroundColor: pot.theme }}
                 />
-                <div className="flex flex-col justify-between p-1">
-                  <span className="text-gray-500 w-fit">{pot.name}</span>
+                <div className="flex flex-col justify-between p-1 w-full">
+                  <span className="text-gray-500 w-full max-tablet:text-sm">{pot.name}</span>
                   <span className="font-bold text-primary-gray900 w-fit">
                      ${pot.amount}
                       </span>

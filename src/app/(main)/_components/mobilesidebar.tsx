@@ -45,16 +45,10 @@ export default function MobileSidebar() {
     <motion.div
       ref={ref}
       className="box w-full z-10 fixed bottom-[0] pt-2 bg-primary-gray900 h-16 tablet:hidden"
-      transition={{
-        type: "spring",
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
 
     >
       <AnimatePresence mode="wait">
-        <nav className="w-full h-full px-8 max-[400px]:px-2">
+        <nav className="w-full h-full px-8 max-[570px]:px-2">
           <ul className="flex w-full h-full justify-between items-stretch gap-1">
             {NAV_LINKS.map((link) => (
               <MobileNavLink key={link.id} link={link} />
@@ -74,7 +68,7 @@ function MobileNavLink({ link }: { link: NavLinkType }) {
     <Link
       href={link.link}
       className={cn(
-        "group flex flex-col items-center justify-center gap-1 px-2 rounded-t-2xl transition-colors w-full h-full max-mobile:px-0",
+        "group flex flex-col items-center justify-center gap-1 px-2 rounded-t-2xl transition-colors w-full h-full max-[570px]:px-0",
         {
           "border-b-4 border-secondary-green bg-primary-beige100": isLinkActive,
           "text-gray-400 hover:text-white": !isLinkActive,
@@ -82,7 +76,7 @@ function MobileNavLink({ link }: { link: NavLinkType }) {
       )}
     >
       <span
-        className={cn("text-current w-6 h-6 fit-content flex items-center justify-center", {
+        className={cn("text-current w-6 h-6 flex items-center justify-center", {
           "text-secondary-green": isLinkActive,
         })}
       >
@@ -92,7 +86,7 @@ function MobileNavLink({ link }: { link: NavLinkType }) {
       <motion.p
         transition={{ duration: 0.3 }}
         className={cn(
-          "hidden min-[460px]:block text-preset-3 truncate font-bold transition-colors text-sm max-[500px]:text-xs",
+          "hidden min-[570px]:block text-preset-3 truncate font-bold transition-colors text-sm ",
           {
             "text-gray": isLinkActive,
             "text-gray-400 group-hover:text-white": !isLinkActive,

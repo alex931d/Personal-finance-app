@@ -85,14 +85,14 @@ export default function BudgetPieChart({
                     <tspan
                       x={cx}
                       y={cy}
-                      className="fill-foreground text-2xl md:text-3xl font-bold"
+                      className="fill-foreground text-2xl md:text-3xl font-bold max-mobile:text-xl"
                     >
                       ${totalSpent.toLocaleString()}
                     </tspan>
                     <tspan
                       x={cx}
                       y={(cy ?? 0) + 24}
-                      className="fill-muted-foreground"
+                      className="fill-muted-foreground max-mobile:text-xs"
                     >
                       of ${totalBudget.toLocaleString()} limit
                     </tspan>

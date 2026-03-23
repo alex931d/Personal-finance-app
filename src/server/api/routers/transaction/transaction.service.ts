@@ -1,4 +1,4 @@
-import { generateId } from "lucia";
+import { generateId, User } from "lucia";
 import type { ProtectedTRPCContext } from "../../trpc";
 import type {
   CreateTransactionInput,
@@ -9,6 +9,18 @@ import type {
 } from "./transaction.input";
 import { transactions, type NewTransactions } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
+
+interface TransactionWithUsers {
+  id: string;
+  fromUserId: string;
+  toUserId: string;
+  amount: string;
+  description: string | null;
+  createdAt: Date;
+  isRecurring: boolean;
+  fromUser: User;
+  toUser: User;
+}
 
 export const getTransaction = async (ctx: ProtectedTRPCContext, { id }: GetTransactionInput) => {
   return ctx.db.query.transactions.findFirst({
@@ -83,18 +95,30 @@ export const myTransactions = async (ctx: ProtectedTRPCContext, input: MyTransac
       isRecurring: true,
     },
     with: {
-      fromUser: { columns: { email: true, id: true } },
-      toUser: { columns: { email: true, id: true } },
+      fromUser: { columns: { email: true, id: true, name: true, avatar: true } },
+      toUser: { columns: { email: true, id: true, name: true, avatar: true } },
     },
   };
 
   if (input.limit) {
     config.limit = input.limit;
   }
-  if (input.page && input.perPage) {
+  else if (input.page && input.perPage) {
     config.limit = input.perPage;
     config.offset = (input.page - 1) * input.perPage;
   }
 
-  return ctx.db.query.transactions.findMany(config);
+  const transactions = (await ctx.db.query.transactions.findMany(config)) as TransactionWithUsers[];
+
+
+  return transactions.map((tx) => {
+    const isSender = tx.fromUserId === ctx.user.id;
+
+    const otherUser = (isSender ? tx.toUser : tx.fromUser);
+    return {
+      ...tx,
+      direction: isSender ? "outgoing" : "incoming",
+      otherUser,
+    };
+  });
 };

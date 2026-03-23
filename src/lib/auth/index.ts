@@ -20,6 +20,7 @@ export const lucia = new Lucia(adapter, {
     return {
       id: attributes.id,
       email: attributes.email,
+      name: attributes.name,
       emailVerified: attributes.emailVerified,
       avatar: attributes.avatar,
       balance: attributes.balance,

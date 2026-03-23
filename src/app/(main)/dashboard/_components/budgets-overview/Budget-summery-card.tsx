@@ -1,3 +1,4 @@
+"use client";
 import BudgetPieChart from "@/app/(main)/dashboard/_components/budgets-overview/pie-chart/pie-chart";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
@@ -20,7 +21,7 @@ export default function BudgetSummaryCard({
   const budgets = Array.isArray(result) ? result[0] : result;
  
   return (
-    <Card className="w-full h-1/2 tablet:h-full">
+    <Card className="w-full h-1/2 max-mobile:h-full tablet:h-full">
       <CardHeader className="flex flex-row justify-between items-top">
               <span className="font-bold text-slate-950 w-fit ">
                  Budgets
@@ -34,7 +35,7 @@ export default function BudgetSummaryCard({
           </Link>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-row gap-3 items-center justify-center max-[1125px]:flex-col max-tablet:flex-row">
+      <CardContent className="flex flex-col gap-3 items-center justify-center max-[1125px]:flex-col mobile:flex-row">
         <BudgetPieChart
           className={cn({
             "flex-1": true,
@@ -44,8 +45,8 @@ export default function BudgetSummaryCard({
         />
 
 
-        <div className="w-fit max-[1125px]:max-w-full max-[1125px]:overflow-x-auto">
-          <div className="flex flex-col max-[1125px]:flex-row flex-nowrap gap-3 max-tablet:flex-col">
+        <div className="w-fit max-mobile:max-w-full max-mobile:overflow-x-auto">
+          <div className="flex flex-col max-mobile:flex-row flex-nowrap gap-3 max-tablet:flex-col">
             {budgets.map((Budget,index) => (
               <div key={index} className="flex gap-4 items-center flex-shrink-0">
                 <div
